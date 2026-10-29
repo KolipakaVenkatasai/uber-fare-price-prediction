@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Insights{% endblock %}
+{% block content %}
+<section class="hero small-hero"><h1>Fare <span class="grad">insights</span></h1><p>What the 190K+ historical trips tell us.</p></section>
+<section class="kpis" id="kpis"><div class="card kpi">Loading…</div></section>
+<section class="grid3">
+  <div class="card"><h3>Average fare by hour</h3><canvas id="c1"></canvas></div>
+  <div class="card"><h3>Average fare by weekday</h3><canvas id="c2"></canvas></div>
+  <div class="card"><h3>Average fare by month</h3><canvas id="c3"></canvas></div>
+  <div class="card"><h3>Distance vs fare</h3><canvas id="c4"></canvas></div>
+  <div class="card"><h3>Feature importance</h3><canvas id="c5"></canvas></div>
+  <div class="card"><h3>Model comparison (R²)</h3><canvas id="c6"></canvas></div>
+  <div class="card"><h3>Average fare by distance band</h3><canvas id="c7"></canvas></div>
+  <div class="card"><h3>Rides by passenger count</h3><canvas id="c8"></canvas></div>
+  <div class="card"><h3>Pickup hotspots</h3><div id="heatmap"></div></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+{% endblock %}

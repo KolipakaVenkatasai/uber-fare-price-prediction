@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Predict{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Know your fare <span class="grad">before you ride.</span></h1>
+  <p>Pick two points in Hyderabad or Visakhapatnam (Vizag), set the time, and our machine-learning model estimates the Uber fare in rupees instantly.</p>
+</section>
+
+<section class="grid2">
+  <div class="card form">
+    <h2>Plan your trip</h2>
+
+    <label>Pickup</label>
+    <div class="row"><select id="pickupSel"></select><button class="chip" id="pickBtn">📍 Pick on map</button></div>
+    <div class="coords" id="pickupTxt">Not selected</div>
+
+    <label>Dropoff</label>
+    <div class="row"><select id="dropSel"></select><button class="chip" id="dropBtn">🏁 Pick on map</button></div>
+    <div class="coords" id="dropTxt">Not selected</div>
+
+    <div class="row2">
+      <div><label>Passengers</label>
+        <div class="stepper"><button id="minus">−</button><span id="pax">1</span><button id="plus">+</button></div></div>
+      <div><label>Date &amp; time</label><input type="datetime-local" id="when"></div>
+    </div>
+
+    <button class="btn" id="goBtn">Estimate fare</button>
+    <button class="btn ghost" id="swapBtn">⇅ Swap locations</button>
+    <div id="err" class="err" hidden></div>
+  </div>
+
+  <div class="card mapcard">
+    <div id="map"></div>
+    <div class="cityrow"><button class="chip" data-city="Hyderabad">Hyderabad</button><button class="chip" data-city="Visakhapatnam">Vizag</button></div>
+    <div class="maphint" id="hint">Choose locations from the lists, or click “Pick on map”.</div>
+  </div>
+</section>
+
+<section id="result" class="card result" hidden>
+  <div class="fare-main">
+    <div class="small">Estimated fare</div>
+    <div class="price">₹<span id="fare">0.00</span></div>
+    <div class="range">Likely range <b id="range"></b></div>
+  </div>
+  <div class="stats">
+    <div><span>Distance</span><b id="dist"></b></div>
+    <div><span>Cost / km</span><b id="perkm"></b></div>
+    <div><span>Linear model</span><b id="lin"></b></div>
+    <div><span>When</span><b id="whenTxt"></b></div>
+  </div>
+  <div class="chartbox"><h3>Same trip, different hours</h3><canvas id="hourChart" height="90"></canvas></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='predict.js') }}"></script>
+{% endblock %}

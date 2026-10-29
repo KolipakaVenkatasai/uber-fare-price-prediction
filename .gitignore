@@ -1,0 +1,15 @@
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+.DS_Store
+
+# Large datasets and generated files
+data/uber.csv
+webapp/history.db
+webapp/stats_cache.json
+webapp (1).zip
+models/final_model.pkl

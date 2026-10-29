@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<section class="hero small-hero"><h1>How it <span class="grad">works</span></h1></section>
+<section class="grid2">
+  <div class="card prose">
+    <h3>The pipeline</h3>
+    <ol>
+      <li><b>Cleaning</b> – removed nulls, negative fares and invalid passenger counts.</li>
+      <li><b>Feature engineering</b> – haversine distance (km) plus hour, day, month and weekday from the pickup time.</li>
+      <li><b>Models</b> – Linear Regression (R² ≈ 0.73) and Random Forest with 100 trees (R² ≈ 0.79).</li>
+      <li><b>Serving</b> – Flask loads the saved <code>final_model.pkl</code> and exposes a JSON API.</li>
+    </ol>
+    <h3>API</h3>
+    <p><code>POST /api/predict</code> with <code>pickup_latitude, pickup_longitude, dropoff_latitude, dropoff_longitude, passenger_count, datetime</code>.</p>
+    <p><code>POST /api/hourly</code> · <code>GET /api/stats</code> · <code>GET /api/history</code> · <code>GET /health</code></p>
+  </div>
+  <div class="card prose">
+    <h3>Good to know</h3>
+    <ul>
+      <li>Locations must be inside Hyderabad or Visakhapatnam, and both points in the same city. The underlying model was trained on NYC trips; Indian coordinates are mapped onto it and fares are calibrated to Indian cab rates (₹ base + per-km for each city), so treat results as estimates.</li>
+      <li>Distance is straight-line (haversine), the same as in training, not road distance.</li>
+      <li>The range shown is the 10th–90th percentile of the 100 individual trees' predictions.</li>
+      <li>Surge pricing, traffic, tolls and weather are not in the dataset, so the estimate excludes them.</li>
+    </ul>
+    <img src="{{ url_for('static', filename='flowchart.png') }}" alt="Project flowchart" style="width:100%;border-radius:12px;margin-top:10px" onerror="this.remove()">
+  </div>
+</section>
+{% endblock %}

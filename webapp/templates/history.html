@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<section class="hero small-hero"><h1>Prediction <span class="grad">history</span></h1><p>Your last 100 estimates, stored in a local SQLite database.</p></section>
+<section class="card">
+  <div class="row" style="justify-content:space-between"><h3 id="count">Loading…</h3><button class="chip danger" id="clear">Clear all</button></div>
+  <div class="tablewrap"><table id="tbl"><thead><tr><th>Date</th><th>Trip</th><th>Km</th><th>Pax</th><th>Ride time</th><th>RF fare</th><th>Linear</th><th></th></tr></thead><tbody></tbody></table></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function load(){
+  const r=await (await fetch('/api/history')).json();
+  document.getElementById('count').textContent=r.length+' prediction'+(r.length===1?'':'s');
+  document.querySelector('#tbl tbody').innerHTML=r.map(x=>`<tr>
+   <td>${x.created}</td><td>${x.pickup_name||x.pickup_lat.toFixed(3)+','+x.pickup_lon.toFixed(3)} → ${x.drop_name||x.drop_lat.toFixed(3)+','+x.drop_lon.toFixed(3)}</td>
+   <td>${x.distance_km.toFixed(1)}</td><td>${x.passengers}</td><td>${x.ride_time}</td>
+   <td><b>₹${Math.round(x.rf_fare).toLocaleString('en-IN')}</b></td><td>₹${Math.round(x.lr_fare).toLocaleString('en-IN')}</td>
+   <td><button class="chip danger" onclick="del(${x.id})">✕</button></td></tr>`).join('')||'<tr><td colspan=8 class="muted">No predictions yet.</td></tr>';
+}
+async function del(id){await fetch('/api/history/'+id,{method:'DELETE'});load();}
+document.getElementById('clear').onclick=async()=>{if(confirm('Delete all history?')){await fetch('/api/history',{method:'DELETE'});load();}};
+load();
+</script>
+{% endblock %}

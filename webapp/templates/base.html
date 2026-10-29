@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}FareSense{% endblock %} · Uber Fare Predictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/"><span class="logo">U</span>Fare Price</a>
+  <nav>
+    <a href="/" class="{{ 'on' if request.path=='/' }}">Predict</a>
+    <a href="/dashboard" class="{{ 'on' if request.path=='/dashboard' }}">Insights</a>
+    <a href="/history" class="{{ 'on' if request.path=='/history' }}">History</a>
+    <a href="/about" class="{{ 'on' if request.path=='/about' }}">About</a>
+  </nav>
+  <button id="themeBtn" class="icon-btn" title="Toggle theme">◐</button>
+</header>
+<main>{% block content %}{% endblock %}</main>
+<footer>FareSense · Random Forest fare model · Hyderabad &amp; Vizag · fares in ₹ · Estimates only, not actual Uber pricing</footer>
+<script>
+(function(){const t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;
+document.getElementById('themeBtn').onclick=()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';
+document.documentElement.dataset.theme=n;localStorage.setItem('theme',n);window.dispatchEvent(new Event('themechange'));};})();
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
